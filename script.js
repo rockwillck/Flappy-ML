@@ -148,6 +148,7 @@ function animate() {
     ctx.beginPath()
     graph.forEach((point, index) => {
         ctx.lineTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
+        ctx.moveTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
     })
     ctx.moveTo(10 + (0*10)*(canvas.width - game.width - 20)/(10*graph.length) + game.width, canvas.height/2 - graph[0])
     ctx.closePath()
