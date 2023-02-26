@@ -27,7 +27,7 @@ function mutateGeneration(list) {
         for (i=0;i<generationSize/list.length;i++) {
             newInterval = []
             bird[0].forEach((interval) =>{
-                newInterval.push(interval + (Math.random()*1)-0.5)
+                newInterval.push(interval + (Math.random()*10)-5)
             })
             newInterval.sort((a, b) => {
                 return a - b
@@ -168,7 +168,8 @@ function animate() {
     ctx.fillText("y: Mean Score of Generation", game.width + 75, 70)
     ctx.fillText(`Seed: ${seed}`, game.width + 50, canvas.height - 75)
     ctx.fillText(`Generation Size: ${players.length}`, game.width + 50, canvas.height - 35)
-    ctx.fillStyle = "black"
+    ctx.fillText(`[Generation ${graph.length + 1}]`, game.width + 250, canvas.height - 115)
+    ctx.fillStyle = "red"
     graph.forEach((point, index) => {
         ctx.fillRect(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width - 5, canvas.height*0.75 - (point)*canvas.height/2/max - 5, 10, 10)
     })
