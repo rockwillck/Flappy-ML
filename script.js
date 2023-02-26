@@ -96,10 +96,14 @@ function animate() {
 
     if (players.length == 0) {
         total = 0
+        max = 0
         lastGen.forEach((bird) => {
             total += bird[1]
+            if (bird[1] > max) {
+                max = bird[1]
+            }
         })
-        graph.push(total/lastGen.length)
+        graph.push([total/lastGen.length, max])
         lastGen.sort((a, b) => {
             return b[1] - a[1]
         })
@@ -138,22 +142,30 @@ function animate() {
     ctx.fillText(Math.floor(score/10), 50, 100)
 
     max = 0
-    graph.forEach((point) => {
-        if (point > max) {
-            max = point
+    graph.forEach((set) => {
+        if (set[1] > max) {
+            max = set[1]
         }
     })
     ctx.fillStyle = "white"
     ctx.fillRect(game.width, 0, canvas.width - game.width, canvas.height)
     ctx.beginPath()
-    graph.forEach((point, index) => {
+    graph.forEach((set, index) => {
+        point = set[0]
         ctx.lineTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
         ctx.moveTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
     })
-    ctx.moveTo(10 + (0*10)*(canvas.width - game.width - 20)/(10*graph.length) + game.width, canvas.height/2 - graph[0])
     ctx.closePath()
     ctx.strokeStyle = "gray"
     ctx.lineWidth = 5
+    ctx.stroke()
+    ctx.beginPath()
+    graph.forEach((set, index) => {
+        point = set[1]
+        ctx.lineTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
+        ctx.moveTo(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width, canvas.height*0.75 - (point)*canvas.height/2/max)
+    })
+    ctx.closePath()
     ctx.stroke()
     ctx.beginPath()
     ctx.moveTo(canvas.width - 50, canvas.height - 150)
@@ -165,13 +177,29 @@ function animate() {
     ctx.fillStyle = "gray"
     ctx.font = "25px Arial"
     ctx.fillText("x: Generation", game.width + 50, canvas.height - 115)
-    ctx.fillText("y: Mean Score of Generation", game.width + 75, 70)
+    ctx.fillStyle = "red"
+    ctx.fillText("Mean Score of Generation", game.width + 105, 70)
+    ctx.fillRect(game.width + 70, 50, 20, 20)
+    ctx.fillStyle = "blue"
+    ctx.fillText("Highest Score of Generation", game.width + 105, 100)
+    ctx.beginPath()
+    ctx.arc(game.width + 80, 90, 10, 0, 2*Math.PI)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = "gray"
     ctx.fillText(`Seed: ${seed}`, game.width + 50, canvas.height - 75)
     ctx.fillText(`Generation Size: ${players.length}`, game.width + 50, canvas.height - 35)
     ctx.fillText(`[Generation ${graph.length + 1}]`, game.width + 250, canvas.height - 115)
-    ctx.fillStyle = "red"
-    graph.forEach((point, index) => {
-        ctx.fillRect(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width - 5, canvas.height*0.75 - (point)*canvas.height/2/max - 5, 10, 10)
+    graph.forEach((set, index) => {
+        point = set[0]
+        point2 = set[1]
+        ctx.fillStyle = "red"
+        ctx.fillRect(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width - 10, canvas.height*0.75 - (point)*canvas.height/2/max - 10, 20, 20)
+        ctx.fillStyle = "blue"
+        ctx.beginPath()
+        ctx.arc(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width , canvas.height*0.75 - (point2)*canvas.height/2/max, 10, 0, 2*Math.PI)
+        ctx.closePath()
+        ctx.fill()
     })
 }
   
