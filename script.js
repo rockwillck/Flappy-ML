@@ -11,7 +11,7 @@ window.addEventListener("keyup", (e) => {
     }
 })
 
-const seed = Math.random()*10000
+const seed = Math.floor(Math.random()*10000)
 var last = seed
 function middleRand() {
     last *= last
@@ -166,6 +166,8 @@ function animate() {
     ctx.font = "25px Arial"
     ctx.fillText("x: Generation", game.width + 50, canvas.height - 115)
     ctx.fillText("y: Mean Score of Generation", game.width + 75, 70)
+    ctx.fillText(`Seed: ${seed}`, game.width + 50, canvas.height - 75)
+    ctx.fillText(`Generation Size: ${players.length}`, game.width + 50, canvas.height - 35)
     ctx.fillStyle = "black"
     graph.forEach((point, index) => {
         ctx.fillRect(50 + (index*10)*(canvas.width - game.width - 100)/(10*(graph.length - 1)) + game.width - 5, canvas.height*0.75 - (point)*canvas.height/2/max - 5, 10, 10)
